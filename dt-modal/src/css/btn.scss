@@ -1,0 +1,27 @@
+.skHynix_btn{
+    &_primary{
+        height: 32px;
+        padding: 4px 15px;
+        color: #FFFFFF;
+        background-color: #1890ff;
+        border-color: #1890ff;
+        border-radius: 2px;
+        transition: 0.4s linear;
+        border: 1px solid transparent;
+        
+        &:active{
+            color: #fff;
+            background-color: #096dd9;
+            border-color: #096dd9;
+        }
+
+        &:hover,
+        &:focus{
+            cursor: pointer;
+            outline: 0;
+            color: #fff;
+            background-color: #40a9ff;
+            border-color: #40a9ff;
+        }        
+    }
+}
