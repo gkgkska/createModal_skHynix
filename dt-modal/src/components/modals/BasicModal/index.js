@@ -1,40 +1,46 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React from 'react';
 import ReactDOM from "react-dom";
-import { sk_modal } from '../../../constants';
+import PropTypes from 'prop-types';
+import { sk_btn } from '../../../constants';
 
-const BasicModal = forwardRef((props, ref)=> {
-    const [visible, setVisible] = useState(false);
-    const modal = sk_modal;
+const BasicModal = (modalProps) => {
+    const prefixCls = modalProps.prefix;
 
-    useImperativeHandle(ref, () => {
-        return {
-           modal_open: () => open(),
-           modal_close: () => close()
+    const modalClose = e => {
+        const { onCancel } = modalProps;
+        if(onCancel){
+            onCancel(e);
         }
-    })
-
-    const open = () => {
-        setVisible(true);
-    }
-    
-    const close = () => {
-        setVisible(false);
     }
 
-    if(visible){
+    if(modalProps.visible){
         return ReactDOM.createPortal
-         (
-            <div className={`${modal}_wrap`}>
-                <div className={modal}>
-                    <div className={`${modal}_content`}>
-                        { props.children }
+            (
+                <div className={`${prefixCls}_wrap`}>
+                    <div className={prefixCls}>
+                        <div className={`${prefixCls}_content`}>
+                            { modalProps.children }
+
+                            <div className={`${prefixCls}_footer`}>
+                                <button type="button" className={`${sk_btn}_primary`} onClick={modalClose}>모달 닫기</button> 
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>, document.getElementById('modal_root')
-        )
-        // selected another DOM
-    }
+                </div>, document.querySelector('body'));
+            // selected another DOM
+        }
     return null;
-})
+}
+
+BasicModal.defaultProps = {
+    visible: false,
+}
+
+BasicModal.propTypes = {
+    onCancel: PropTypes.func,
+    visible: PropTypes.bool,
+    cerfix: PropTypes.string,
+    prefix: PropTypes.string,
+};
 
 export default BasicModal;
